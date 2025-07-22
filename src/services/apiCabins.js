@@ -1,4 +1,4 @@
-import supabase, { VITE_SUPABASE_URL } from "./supabase";
+import supabase from "./supabase";
 
 export async function getCabins() {
   const { data: cabins, error } = await supabase.from("cabins").select("*");
@@ -12,7 +12,9 @@ export async function getCabins() {
 }
 
 export async function createCabin(newCabin, id) {
-  const hasImagePath = newCabin.image?.startsWith?.(VITE_SUPABASE_URL);
+  const hasImagePath = newCabin.image?.startsWith?.(
+    import.meta.env.VITE_SUPABASE_URL
+  );
   const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
     "/",
     ""
@@ -20,7 +22,9 @@ export async function createCabin(newCabin, id) {
 
   const imagePath = hasImagePath
     ? newCabin.image
-    : `${VITE_SUPABASE_URL}/storage/v1/object/public/cabin-images//${imageName}`;
+    : `${
+        import.meta.env.VITE_SUPABASE_URL
+      }/storage/v1/object/public/cabin-images//${imageName}`;
 
   let query = supabase.from("cabins");
 
