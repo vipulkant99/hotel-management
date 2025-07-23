@@ -38,6 +38,8 @@ export async function getBookings({ filter, sortBy, page }) {
 }
 
 export async function getBooking(id) {
+  console.log("🔥 getBooking called with id:", id);
+
   const { data, error } = await supabase
     .from("bookings")
     .select("*, cabins(*), guests(*)")
@@ -115,7 +117,6 @@ export async function updateBooking(id, obj) {
     .single();
 
   if (error) {
-    console.error(error);
     throw new Error("Booking could not be updated");
   }
   return data;
